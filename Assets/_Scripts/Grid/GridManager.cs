@@ -10,10 +10,17 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
     public class GridManager : MonoBehaviour {
         public static GridManager Instance;
 
+        private enum SearchPathAlgorithm
+        {
+            AStar,
+            BFS,
+        }
+
         [SerializeField] private Sprite _playerSprite, _goalSprite;
         [SerializeField] private Unit _unitPrefab;
         [SerializeField] private ScriptableGrid _scriptableGrid;
         [SerializeField] private bool _drawConnections;
+        [SerializeField] private SearchPathAlgorithm _searchPathAlgorithm = SearchPathAlgorithm.AStar;
 
         public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
 
@@ -33,13 +40,23 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
 
         private void OnDestroy() => NodeBase.OnHoverTile -= OnTileHover;
 
-        private void OnTileHover(NodeBase nodeBase) {
+        private void OnTileHover(NodeBase nodeBase)
+        {
             _goalNodeBase = nodeBase;
             _spawnedGoal.transform.position = _goalNodeBase.Coords.Pos;
 
-            foreach (var t in Tiles.Values) t.RevertTile();
+            foreach (var t in Tiles.Values)
+            {
+                t.RevertTile();
+                t.SetConnection(null);
+            }
 
-            var path = Pathfinding.FindPath(_playerNodeBase, _goalNodeBase);
+            List<NodeBase> path;
+            if (_searchPathAlgorithm == SearchPathAlgorithm.AStar)
+                path = Pathfinding.FindPath(_playerNodeBase, _goalNodeBase);
+
+            if (_searchPathAlgorithm == SearchPathAlgorithm.BFS)
+                path = Pathfinding.FindPathByBFS(_playerNodeBase, _goalNodeBase);
         }
 
         void SpawnUnits() {

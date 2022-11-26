@@ -2,7 +2,6 @@
 Unity简要演示寻路算法（A*、BFS）
 
 - GitHub源项目：[Pathfinding - Matthew-J-Spencer](https://github.com/Matthew-J-Spencer/Pathfinding)
-
 - 视频演示
   - YouTube演示：[Pathfinding - Matthew-J-Spencer](https://www.youtube.com/watch?v=i0x5fj4PqP4)
   - B站演示：[Pathfinding - Matthew-J-Spencer](https://www.bilibili.com/video/BV1v44y1h7Dt/?spm_id_from=333.788.recommend_more_video.-1&vd_source=c850cfae45ee56e9a0ab838c43fc9870)
@@ -10,6 +9,8 @@ Unity简要演示寻路算法（A*、BFS）
 # 寻路算法
 
 ## A*
+
+![AStar](Pic/Astar.gif)
 
 核心代码：
 ```C#
@@ -66,6 +67,10 @@ public static List<NodeBase> FindPath(NodeBase startNode, NodeBase targetNode)
 ```
 
 ## BFS
+
+![BFS](Pic/BFS.gif)
+
+核心代码：
 
 ```C#
 public static List<NodeBase> FindPathByBFS(NodeBase startNode, NodeBase targetNode)
