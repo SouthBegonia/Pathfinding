@@ -14,6 +14,8 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
         {
             AStar,
             BFS,
+            Dijkstra,
+            GreedyBestFirst,
         }
 
         [SerializeField] private Sprite _playerSprite, _goalSprite;
@@ -47,8 +49,11 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
 
             foreach (var t in Tiles.Values)
             {
-                t.RevertTile();
+                t.SetG(0);
+                t.SetH(0);
                 t.SetConnection(null);
+
+                t.RevertTile();
             }
 
             List<NodeBase> path;
@@ -57,6 +62,12 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
 
             if (_searchPathAlgorithm == SearchPathAlgorithm.BFS)
                 path = Pathfinding.FindPathByBFS(_playerNodeBase, _goalNodeBase);
+
+            if (_searchPathAlgorithm == SearchPathAlgorithm.Dijkstra)
+                path = Pathfinding.FindPathByDijkstra(_playerNodeBase, _goalNodeBase);
+
+            if (_searchPathAlgorithm == SearchPathAlgorithm.GreedyBestFirst)
+                path = Pathfinding.FindPathByGreedyBestFirst(_playerNodeBase, _goalNodeBase);
         }
 
         void SpawnUnits() {
